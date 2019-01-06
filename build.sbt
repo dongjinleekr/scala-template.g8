@@ -1,42 +1,9 @@
-name := "$name$"
-
-version := "0.1-SNAPSHOT"
-
-scalaVersion := "2.12.6"
-
-libraryDependencies ++= Seq(
-)
-
-javacOptions ++= Seq("-source", "1.7")
-
-// sbt-sonatype configuration
-
-homepage := Some(url("https://github.com/dongjinleekr/$name$"))
-scmInfo := Some(ScmInfo(url("https://github.com/dongjinleekr/$name$"),
-  "git@github.com:dongjinleekr/$name$.git"))
-developers := List(Developer("username",
-  "Lee Dongjin",
-  "dongjin@apache.org",
-  url("https://github.com/dongjinleekr")))
-licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0"))
-
-publishTo := {
-  val nexus = "https://oss.sonatype.org/"
-  if (isSnapshot.value)
-    Some("snapshots" at nexus + "content/repositories/snapshots")
-  else
-    Some("releases" at nexus + "service/local/staging/deploy/maven2")
-}
-
-publishMavenStyle := true
-
-publishArtifact in Test := false
-
-pomIncludeRepository := { _ => false }
-
-organization := "com.dongjinlee"
-
-description := "$description$"
-
-packageOptions in(Compile, packageBin) +=
-  Package.ManifestAttributes(new java.util.jar.Attributes.Name("Automatic-Module-Name") -> "com.dongjinlee.$name$")
+lazy val root = (project in file(".")).
+  settings(
+    name := "scala-template.g8",
+    test in Test := {
+      val _ = (g8Test in Test).toTask("").value
+    },
+    scriptedLaunchOpts ++= List("-Xms1024m", "-Xmx1024m", "-XX:ReservedCodeCacheSize=128m", "-Xss2m", "-Dfile.encoding=UTF-8"),
+    resolvers += Resolver.url("typesafe", url("http://repo.typesafe.com/typesafe/ivy-releases/"))(Resolver.ivyStylePatterns)
+  )
