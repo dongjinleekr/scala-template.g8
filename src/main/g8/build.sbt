@@ -4,13 +4,17 @@ organization := "$organization$"
 
 version := "0.1-SNAPSHOT"
 
-scalaVersion := "2.12.6"
+scalaVersion := "2.12.10"
+
+crossScalaVersions := Seq("2.11.8", "2.12.10")
+
+val scalatestVersion = "3.0.8"
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.0.5" % Test
+  "org.scalatest" %% "scalatest" % scalatestVersion % Test
 )
 
-javacOptions ++= Seq("-source", "1.7")
+javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
 // sbt-sonatype configuration
 
